@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form - Debugging Project</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 120px;
+            resize: vertical;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .status {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+        .status.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status.loading {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .debug-info {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            display: none;
+        }
+        .debug-toggle {
+            background-color: #6c757d;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Contact Us</h1>
+        <p>This contact form has some issues that need to be debugged. Try submitting the form and check the browser console and network tab for errors.</p>
+        
+        <form id="contactForm">
+            <div class="form-group">
+                <label for="name">Full Name *</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone">
+            </div>
+            
+            <div class="form-group">
+                <label for="subject">Subject *</label>
+                <select id="subject" name="subject" required>
+                    <option value="">Select a subject</option>
+                    <option value="general">General Inquiry</option>
+                    <option value="support">Technical Support</option>
+                    <option value="sales">Sales Question</option>
+                    <option value="feedback">Feedback</option>
+                    <option value="bug">Bug Report</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="message">Message *</label>
+                <textarea id="message" name="message" required placeholder="Please describe your inquiry in detail..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="priority">Priority</label>
+                <select id="priority" name="priority">
+                    <option value="low">Low</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="high">High</option>
+                    <option value="urgent">Urgent</option>
+                </select>
+            </div>
+            
+            <button type="submit" id="submitBtn">Send Message</button>
+        </form>
+        
+        <div id="status" class="status"></div>
+        
+        <button class="debug-toggle" onclick="toggleDebug()">Show Debug Info</button>
+        <div id="debugInfo" class="debug-info"></div>
+    </div>
+
+    <script>
+        // Configuration - This will be updated by the deployment script
+        const API_ENDPOINT = 'https://YOUR_API_GATEWAY_URL.execute-api.us-east-1.amazonaws.com/prod/contact';
+        
+        const form = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const status = document.getElementById('status');
+        const debugInfo = document.getElementById('debugInfo');
+        
+        let debugMode = false;
+        
+        function toggleDebug() {
+            debugMode = !debugMode;
+            debugInfo.style.display = debugMode ? 'block' : 'none';
+            document.querySelector('.debug-toggle').textContent = debugMode ? 'Hide Debug Info' : 'Show Debug Info';
+        }
+        
+        function showStatus(message, type) {
+            status.textContent = message;
+            status.className = `status ${type}`;
+            status.style.display = 'block';
+        }
+        
+        function hideStatus() {
+            status.style.display = 'none';
+        }
+        
+        function logDebug(message) {
+            if (debugMode) {
+                const timestamp = new Date().toISOString();
+                debugInfo.innerHTML += `[${timestamp}] ${message}<br>`;
+                debugInfo.scrollTop = debugInfo.scrollHeight;
+            }
+            console.log(message);
+        }
+        
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            logDebug('Form submission started');
+            
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            hideStatus();
+            
+            // Get form data
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            
+            logDebug('Form data collected: ' + JSON.stringify(data));
+            
+            try {
+                logDebug('Sending request to: ' + API_ENDPOINT);
+                
+                const response = await fetch(API_ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // Note: Missing CORS headers might cause issues
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                logDebug('Response received: ' + response.status + ' ' + response.statusText);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                logDebug('Response body: ' + JSON.stringify(result));
+                
+                showStatus('Thank you! Your message has been sent successfully.', 'success');
+                form.reset();
+                
+            } catch (error) {
+                logDebug('Error occurred: ' + error.message);
+                showStatus('Sorry, there was an error sending your message. Please try again later.', 'error');
+                
+                // Log additional error details
+                if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                    logDebug('Network error - check CORS configuration and API endpoint');
+                }
+            } finally {
+                // Re-enable submit button
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            }
+        });
+        
+        // Log initial configuration
+        logDebug('Contact form initialized');
+        logDebug('API Endpoint: ' + API_ENDPOINT);
+        logDebug('User Agent: ' + navigator.userAgent);
+        logDebug('Current URL: ' + window.location.href);
+    </script>
+</body>
+</html>

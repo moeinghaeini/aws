@@ -1,0 +1,26 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - echo Build started on `date`
+      - echo Installing dependencies...
+      - npm install
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Running tests...
+      - npm test
+      - echo Running linting...
+      - npm run lint
+      - echo Build completed on `date`
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Creating deployment package...
+      - zip -r application.zip . -x "*.git*" "node_modules/.cache/*" "tests/*" "*.md"
+artifacts:
+  files:
+    - application.zip
+  name: globalmart-app-$(date +%Y-%m-%d-%H-%M-%S)
