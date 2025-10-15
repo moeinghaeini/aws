@@ -103,7 +103,7 @@ Each project is designed to use minimal AWS resources to keep costs low:
 
 Estimated monthly cost per project: $10-30 (depending on usage)
 
-## 🔄 Recent Updates (December 2024)
+## 🔄 Recent Updates (October 2025)
 
 - **Dependencies Updated**: All projects now use the latest stable versions
   - React 18.3.1 with latest security patches
