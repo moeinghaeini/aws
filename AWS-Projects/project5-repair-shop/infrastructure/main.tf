@@ -1,9 +1,13 @@
 terraform {
-  required_version = ">= 1.0"
+  required_version = ">= 1.6"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.0"
+      version = "~> 5.80"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.6"
     }
   }
 }
@@ -365,7 +369,7 @@ resource "aws_elastic_beanstalk_application" "repair_shop_app" {
 resource "aws_elastic_beanstalk_environment" "repair_shop_env" {
   name                = "repair-shop-environment"
   application         = aws_elastic_beanstalk_application.repair_shop_app.name
-  solution_stack_name = "64bit Amazon Linux 2 v5.8.0 running Node.js 18"
+  solution_stack_name = "64bit Amazon Linux 2023 v4.3.0 running Node.js 20"
 
   setting {
     namespace = "aws:autoscaling:launchconfiguration"

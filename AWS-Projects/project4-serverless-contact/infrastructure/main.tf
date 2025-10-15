@@ -1,13 +1,17 @@
 terraform {
-  required_version = ">= 1.0"
+  required_version = ">= 1.6"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.0"
+      version = "~> 5.80"
     }
     archive = {
       source  = "hashicorp/archive"
-      version = "~> 2.2"
+      version = "~> 2.4"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.6"
     }
   }
 }
@@ -227,7 +231,7 @@ resource "aws_lambda_function" "contact_handler" {
   role            = aws_iam_role.lambda_role.arn
   handler         = "contact_handler.lambda_handler"
   source_code_hash = data.archive_file.contact_handler_zip.output_base64sha256
-  runtime         = "python3.9"
+  runtime         = "python3.11"
   timeout         = 30
 
   environment {
@@ -252,7 +256,7 @@ resource "aws_lambda_function" "broken_contact_handler" {
   role            = aws_iam_role.lambda_role.arn
   handler         = "broken_contact_handler.lambda_handler"
   source_code_hash = data.archive_file.broken_contact_handler_zip.output_base64sha256
-  runtime         = "python3.9"
+  runtime         = "python3.11"
   timeout         = 30
 
   environment {

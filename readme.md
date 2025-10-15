@@ -71,9 +71,10 @@ Each project includes:
 
 ### Prerequisites
 - AWS CLI configured with appropriate permissions
-- Terraform installed
-- Node.js and npm (for application projects)
+- Terraform >= 1.6 installed
+- Node.js >= 18 and npm >= 9 (for application projects)
 - Docker (for containerized projects)
+- Python 3.11+ (for Lambda functions)
 
 ### Quick Start
 1. Navigate to any project directory
@@ -98,8 +99,21 @@ Each project is designed to use minimal AWS resources to keep costs low:
 - db.t3.micro for databases
 - Minimal storage configurations
 - Auto-scaling to scale down when not in use
+- Latest AWS services for optimal performance and cost efficiency
 
 Estimated monthly cost per project: $10-30 (depending on usage)
+
+## 🔄 Recent Updates (December 2024)
+
+- **Dependencies Updated**: All projects now use the latest stable versions
+  - React 18.3.1 with latest security patches
+  - Node.js 20 LTS for better performance
+  - AWS SDK v3 for improved performance and security
+  - Terraform 1.6+ with latest AWS provider
+  - Python 3.11 for Lambda functions
+- **Security Enhancements**: Updated all packages to address security vulnerabilities
+- **Performance Improvements**: Migrated to AWS SDK v3 for better performance
+- **Infrastructure Updates**: Latest Terraform configurations with improved security
 
 ## 📖 Documentation
 

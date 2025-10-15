@@ -5,7 +5,7 @@ resource "aws_lambda_function" "auto_remediation" {
   role            = aws_iam_role.lambda_role.arn
   handler         = "auto_remediation.handler"
   source_code_hash = data.archive_file.auto_remediation_zip.output_base64sha256
-  runtime         = "python3.9"
+  runtime         = "python3.11"
   timeout         = 300
 
   vpc_config {
@@ -35,7 +35,7 @@ resource "aws_lambda_function" "security_response" {
   role            = aws_iam_role.lambda_role.arn
   handler         = "security_response.handler"
   source_code_hash = data.archive_file.security_response_zip.output_base64sha256
-  runtime         = "python3.9"
+  runtime         = "python3.11"
   timeout         = 300
 
   vpc_config {
@@ -64,7 +64,7 @@ resource "aws_lambda_function" "compliance_monitor" {
   role            = aws_iam_role.lambda_role.arn
   handler         = "compliance_monitor.handler"
   source_code_hash = data.archive_file.compliance_monitor_zip.output_base64sha256
-  runtime         = "python3.9"
+  runtime         = "python3.11"
   timeout         = 300
 
   vpc_config {
@@ -93,7 +93,7 @@ resource "aws_lambda_function" "cost_optimizer" {
   role            = aws_iam_role.lambda_role.arn
   handler         = "cost_optimizer.handler"
   source_code_hash = data.archive_file.cost_optimizer_zip.output_base64sha256
-  runtime         = "python3.9"
+  runtime         = "python3.11"
   timeout         = 300
 
   environment {
