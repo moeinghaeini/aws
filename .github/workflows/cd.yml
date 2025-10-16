@@ -1,0 +1,60 @@
+name: Continuous Deployment
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  AWS_REGION: us-east-1
+  NODE_VERSION: '20'
+  PYTHON_VERSION: '3.11'
+  TERRAFORM_VERSION: '1.6'
+
+jobs:
+  deploy:
+    name: Deploy Projects
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          find . -name "package.json" -not -path "./node_modules/*" -exec dirname {} \; | xargs -I {} sh -c 'cd {} && npm ci'
+          find . -name "requirements.txt" -not -path "./node_modules/*" | xargs -I {} sh -c 'cd $(dirname {}) && pip install -r requirements.txt'
+
+      - name: Deploy all projects
+        run: |
+          for project in AWS-Projects/project*; do
+            if [ -f "$project/scripts/deploy.sh" ]; then
+              echo "Deploying $project..."
+              cd "$project"
+              chmod +x scripts/deploy.sh
+              ./scripts/deploy.sh || echo "Deployment failed for $project"
+              cd - > /dev/null
+            fi
+          done

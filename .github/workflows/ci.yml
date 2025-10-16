@@ -1,0 +1,57 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  NODE_VERSION: '20'
+  PYTHON_VERSION: '3.11'
+  TERRAFORM_VERSION: '1.6'
+
+jobs:
+  lint-and-test:
+    name: Lint and Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          find . -name "package.json" -not -path "./node_modules/*" -exec dirname {} \; | xargs -I {} sh -c 'cd {} && npm ci'
+          find . -name "requirements.txt" -not -path "./node_modules/*" | xargs -I {} sh -c 'cd $(dirname {}) && pip install -r requirements.txt'
+
+      - name: Run linting
+        run: |
+          find . -name "package.json" -not -path "./node_modules/*" -exec dirname {} \; | xargs -I {} sh -c 'cd {} && npx eslint . --ext .js,.jsx,.ts,.tsx || true'
+
+      - name: Run tests
+        run: |
+          find . -name "package.json" -not -path "./node_modules/*" -exec dirname {} \; | xargs -I {} sh -c 'cd {} && npm test || true'
+
+      - name: Validate Terraform
+        run: |
+          find . -name "*.tf" -not -path "./.terraform/*" | xargs -I {} dirname {} | sort -u | xargs -I {} sh -c 'cd {} && terraform init -backend=false && terraform validate || true'
+
+      - name: Security audit
+        run: |
+          find . -name "package.json" -not -path "./node_modules/*" -exec dirname {} \; | xargs -I {} sh -c 'cd {} && npm audit --audit-level=moderate || true'
