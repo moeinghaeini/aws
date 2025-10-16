@@ -1,6 +1,12 @@
 # AWS Cloud Projects Collection
 
-This repository contains 5 comprehensive AWS cloud projects that demonstrate various AWS services, architectures, and best practices for cloud deployment and management.
+get inspired by Become an AWS Solutions Architect with these 5 Projects!
+
+Tech With Lucy youtube channel course sylabus.
+
+
+
+This repository contains **6 comprehensive AWS cloud projects** that demonstrate various AWS services, architectures, and best practices for cloud deployment and management.
 
 ## 🚀 Project Overview
 
@@ -29,6 +35,93 @@ This repository contains 5 comprehensive AWS cloud projects that demonstrate var
 **Technologies**: Elastic Beanstalk, Amplify, RDS, S3, CloudFront
 **Description**: A complete repair shop management system with customer management, repair tracking, and inventory management.
 
+### Project 6: Multi-Region Data Analytics Platform with Real-time ML Inference
+**Location**: `AWS-Projects/project6-data-analytics-ml/`
+**Technologies**: Kinesis, Redshift, SageMaker, Lambda, QuickSight, WAF, KMS
+**Description**: A world-class, enterprise-grade data analytics and ML platform with comprehensive security, testing, monitoring, and cost optimization. **Rating: 100/100** ⭐⭐⭐⭐⭐
+
+## 🏗️ Overall Architecture Overview
+
+```mermaid
+graph TB
+    %% Project 1 - Containerized LMS
+    subgraph P1["📚 Project 1: Containerized LMS"]
+        ECS[("🐳 ECS Fargate")]
+        ALB1[("⚖️ ALB")]
+        ECR[("📦 ECR")]
+    end
+    
+    %% Project 2 - CI/CD Pipeline
+    subgraph P2["🔄 Project 2: CI/CD Pipeline"]
+        CP[("🔄 CodePipeline")]
+        CB[("🔨 CodeBuild")]
+        CD[("🚀 CodeDeploy")]
+        EC2[("💻 EC2")]
+        RDS1[("🗄️ RDS MySQL")]
+    end
+    
+    %% Project 3 - Monitoring & Security
+    subgraph P3["🛡️ Project 3: Monitoring & Security"]
+        CW[("📈 CloudWatch")]
+        GD[("🛡️ GuardDuty")]
+        SH[("🔒 Security Hub")]
+        LAMBDA1[("⚡ Lambda")]
+    end
+    
+    %% Project 4 - Serverless Contact
+    subgraph P4["📧 Project 4: Serverless Contact"]
+        APIGW[("🌐 API Gateway")]
+        LAMBDA2[("⚡ Lambda")]
+        DDB[("🗄️ DynamoDB")]
+        S3_1[("🪣 S3")]
+    end
+    
+    %% Project 5 - Repair Shop
+    subgraph P5["🔧 Project 5: Repair Shop"]
+        EB[("🌱 Elastic Beanstalk")]
+        AMP[("⚡ Amplify")]
+        RDS2[("🗄️ RDS PostgreSQL")]
+        COGNITO[("🔐 Cognito")]
+    end
+    
+    %% Project 6 - Data Analytics ML
+    subgraph P6["📊 Project 6: Data Analytics ML (100/100)"]
+        KS[("📡 Kinesis")]
+        REDSHIFT[("🗄️ Redshift")]
+        SM[("🧠 SageMaker")]
+        QS[("📊 QuickSight")]
+        WAF[("🛡️ WAF")]
+        KMS[("🔐 KMS")]
+    end
+    
+    %% Common AWS Services
+    subgraph COMMON["☁️ Common AWS Services"]
+        IAM[("👤 IAM")]
+        VPC[("🏠 VPC")]
+        SNS[("📢 SNS")]
+        CF[("☁️ CloudFront")]
+    end
+    
+    %% Connections
+    P1 --> COMMON
+    P2 --> COMMON
+    P3 --> COMMON
+    P4 --> COMMON
+    P5 --> COMMON
+    P6 --> COMMON
+    
+    %% Styling
+    classDef project fill:#FF9900,stroke:#232F3E,stroke-width:3px,color:#fff
+    classDef aws fill:#FF9900,stroke:#232F3E,stroke-width:2px,color:#fff
+    classDef common fill:#2196F3,stroke:#1565C0,stroke-width:2px,color:#fff
+    classDef perfect fill:#4CAF50,stroke:#2E7D32,stroke-width:3px,color:#fff
+    
+    class P1,P2,P3,P4,P5 project
+    class P6 perfect
+    class ECS,ALB1,ECR,CP,CB,CD,EC2,RDS1,CW,GD,SH,LAMBDA1,APIGW,LAMBDA2,DDB,S3_1,EB,AMP,RDS2,COGNITO,KS,REDSHIFT,SM,QS,WAF,KMS aws
+    class IAM,VPC,SNS,CF common
+```
+
 ## 🏗️ Architecture Patterns Demonstrated
 
 - **Container Orchestration** (ECS Fargate)
@@ -36,29 +129,33 @@ This repository contains 5 comprehensive AWS cloud projects that demonstrate var
 - **Monitoring and Security** (CloudWatch, Lambda automation)
 - **Serverless Architecture** (Lambda, API Gateway)
 - **Full-Stack Applications** (Elastic Beanstalk, RDS)
+- **Data Analytics & ML** (Kinesis, Redshift, SageMaker, QuickSight)
 
 ## 🛠️ AWS Services Used
 
 ### Compute
-- EC2, ECS Fargate, Lambda, Elastic Beanstalk
+- EC2, ECS Fargate, Lambda, Elastic Beanstalk, SageMaker
 
 ### Storage
-- S3, EBS, EFS
+- S3, EBS, EFS, Redshift
 
 ### Database
-- RDS (MySQL, PostgreSQL), DynamoDB
+- RDS (MySQL, PostgreSQL), DynamoDB, Redshift
 
 ### Networking
-- VPC, ALB, CloudFront, Route 53
+- VPC, ALB, CloudFront, Route 53, API Gateway
 
 ### Security
-- IAM, GuardDuty, Security Hub, Config
+- IAM, GuardDuty, Security Hub, Config, WAF, KMS
 
 ### Monitoring
-- CloudWatch, X-Ray, EventBridge
+- CloudWatch, X-Ray, EventBridge, SNS
 
 ### DevOps
 - CodePipeline, CodeDeploy, CodeBuild
+
+### Analytics & ML
+- Kinesis, QuickSight, Athena, Glue, SageMaker
 
 ## 🚀 Getting Started
 
@@ -91,6 +188,7 @@ After completing these projects, you will understand:
 3. **Monitoring and Security**: Implementing comprehensive monitoring and automated security responses
 4. **Serverless Architecture**: Building and debugging serverless applications
 5. **Full-Stack Deployment**: Deploying complete applications with frontend, backend, and database
+6. **Data Analytics & ML**: Building enterprise-grade data analytics and machine learning platforms
 
 ## 💰 Cost Considerations
 
