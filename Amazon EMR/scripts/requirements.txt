@@ -1,0 +1,77 @@
+# Python requirements for Amazon EMR Big Data Platform
+
+# Core data processing
+pandas>=1.5.0
+numpy>=1.21.0
+pyspark>=3.3.0
+
+# AWS SDK
+boto3>=1.26.0
+botocore>=1.29.0
+
+# Data science and ML
+scikit-learn>=1.1.0
+scipy>=1.9.0
+matplotlib>=3.5.0
+seaborn>=0.11.0
+plotly>=5.10.0
+
+# Data processing and analysis
+openpyxl>=3.0.0
+xlrd>=2.0.0
+pyarrow>=8.0.0
+fastparquet>=0.8.0
+
+# Machine learning
+xgboost>=1.6.0
+lightgbm>=3.3.0
+
+# Web scraping and APIs
+requests>=2.28.0
+beautifulsoup4>=4.11.0
+lxml>=4.9.0
+
+# Database connectivity
+pymongo>=4.0.0
+psycopg2-binary>=2.9.0
+sqlalchemy>=1.4.0
+
+# Time series analysis
+statsmodels>=0.13.0
+prophet>=1.1.0
+
+# Text processing
+nltk>=3.7
+spacy>=3.4.0
+textblob>=0.17.0
+
+# API development
+flask>=2.2.0
+fastapi>=0.78.0
+uvicorn>=0.18.0
+
+# Data validation
+great-expectations>=0.15.0
+pandera>=0.15.0
+
+# Monitoring and logging
+structlog>=22.1.0
+python-json-logger>=2.0.0
+
+# Testing
+pytest>=7.0.0
+pytest-cov>=3.0.0
+
+# Development tools
+jupyter>=1.0.0
+ipython>=8.0.0
+black>=22.0.0
+flake8>=4.0.0
+
+# Data generation for testing
+faker>=15.0.0
+
+# Utilities
+python-dateutil>=2.8.0
+pytz>=2022.1
+tqdm>=4.64.0
